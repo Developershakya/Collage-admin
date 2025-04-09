@@ -40,7 +40,7 @@ const loginUser = async (username, password) => {
   }
 };
 
-const registerUser = async (username, password, role = "student") => {
+const registerUser = async (username, email,password, role = "student") => {
   try {
     let existingUser = await User.findOne({ username });
     if (existingUser) return { error: "User already exists", status: 400 };
@@ -50,6 +50,7 @@ const registerUser = async (username, password, role = "student") => {
 
     const user = new User({
       username,
+      email,
       password: hashedPassword,
       role,
     });

@@ -3,7 +3,8 @@ const userService = require("../services/userService");
 const login = async (req, res) => {
   const { username, password } = req.body;
   const result = await userService.loginUser(username, password);
-  if (result.error) return res.status(result.status).json({ message: result.error });
+  if (result.error)
+    return res.status(result.status).json({ message: result.error });
 
   return res
     .header("Authorization", `Bearer ${result.token}`)
@@ -17,9 +18,15 @@ const login = async (req, res) => {
 };
 
 const register = async (req, res) => {
-  const { username, password, role } = req.body;
-  const result = await userService.registerUser(username, password, role);
-  if (result.error) return res.status(result.status).json({ message: result.error });
+  const { username, email, password, role } = req.body;
+  const result = await userService.registerUser(
+    username,
+    email,
+    password,
+    role
+  );
+  if (result.error)
+    return res.status(result.status).json({ message: result.error });
 
   return res.status(201).json({
     token: result.token,

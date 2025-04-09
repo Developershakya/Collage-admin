@@ -1,11 +1,12 @@
 // server.js
 const express = require("express");
 const connectDB = require('./config/database'); 
-const authRoutes = require('./routes/auth')
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const courseRoute = require('./routes/courseRoute')
+const cors = require('cors')
 
+const userRoute = require('./routes/userRoute')
 const authMiddleware = require("./middleware/authMiddleware");
 const roleMiddleware = require("./middleware/roleMiddleware");
 
@@ -13,7 +14,11 @@ dotenv.config();
 const app = express();
 express.urlencoded({ extended: true })
 app.use(express.json());
-app.use('/api/auth', authRoutes);
+app.use('/', userRoute);
+// app.use('/register', auth
+// );
+// app.use('/login', auth
+// );
 app.use('/teacher-panel/addcourse', courseRoute);
 
 // DB Connect

@@ -1,7 +1,7 @@
-import courseService from '../services/courseService.js';
+const courseService = require('../services/courseService');
 
 // ➕ Add Course
-export const addCourse = async (req, res) => {
+const addCourse = async (req, res) => {
   try {
     const { courseName, fee } = req.body;
     if (!courseName || !fee) {
@@ -15,7 +15,7 @@ export const addCourse = async (req, res) => {
 };
 
 // 📃 Get All Courses
-export const getCourses = async (req, res) => {
+const getCourses = async (req, res) => {
   try {
     const courses = await courseService.getAllCourses();
     res.status(200).json(courses);
@@ -25,7 +25,7 @@ export const getCourses = async (req, res) => {
 };
 
 // ✏️ Update Course
-export const updateCourse = async (req, res) => {
+const updateCourse = async (req, res) => {
   try {
     const { courseName, fee } = req.body;
     const updated = await courseService.updateCourse(req.params.id, { courseName, fee });
@@ -36,11 +36,19 @@ export const updateCourse = async (req, res) => {
 };
 
 // ❌ Delete Course
-export const deleteCourse = async (req, res) => {
+const deleteCourse = async (req, res) => {
   try {
     await courseService.deleteCourse(req.params.id);
     res.status(200).json({ message: "Course deleted" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+};
+
+// ✅ Export all controllers
+module.exports = {
+  addCourse,
+  getCourses,
+  updateCourse,
+  deleteCourse
 };

@@ -1,4 +1,4 @@
-import Course from '../models/courseModel.js';
+const Course = require('../models/courseModel');
 
 const createCourse = async (data) => {
   const newCourse = new Course(data);

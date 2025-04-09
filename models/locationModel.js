@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require('mongoose')
 const locationModel = new mongoose.Schema({
  loc:{
     type:String

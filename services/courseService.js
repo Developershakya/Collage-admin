@@ -1,4 +1,4 @@
-const Course = require('../models/courseModel');
+const Course = require('../models/courseSchema');
 
 const createCourse = async (data) => {
   const newCourse = new Course(data);

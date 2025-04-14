@@ -1,35 +1,76 @@
 const mongoose = require("mongoose");
-const AutoIncrement = require('mongoose-sequence')(mongoose);
+const AutoIncrement = require("mongoose-sequence")(mongoose);
 
-const enquirySchema = new mongoose.Schema({
-    enqtype: {
-        type: String,
-        enum: ["direct", "telephonic"],
-        required: true
+const enquirySchema = new mongoose.Schema(
+  {
+    enquiryNoRaw: {
+      type: Number,
+      unique: true,
     },
-    enq_no: {
-        type: Number
+    enquiryNo: {
+      type: String,
+      unique: true,
     },
-    name: { type: String, required: true },
-    phone: { type: Number, required: true },
-    city: { type: String, required: true },
-    state: { type: String, required: true },
-    address: { type: String, required: true },
-    user: { type: String, required: true },
-    enqdate: {
-        type: String,
-        default: () => {
-            const today = new Date();
-            const dd = String(today.getDate()).padStart(2, '0');
-            const mm = String(today.getMonth() + 1).padStart(2, '0');
-            const yyyy = today.getFullYear();
-            return `${dd}-${mm}-${yyyy}`;
-        },
-        required: true
+    enquiryType: {
+      type: String,
+      required: true,
     },
-    enqdetail: { type: String, required: true }
-}, { timestamps: true });
+    studentName: {
+      type: String,
+      required: true,
+    },
+    phone: {
+      type: Number,
+      required: true,
+      unique: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    courseInterest: {
+      type: String,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    state: {
+      type: String,
+      required: true,
+    },
+    address: {
+      type: String,
+      required: true,
+    },
+    enquiryDetail: {
+      type: String,
+      required: true,
+    },
+    status: {
+      type: String,
+      default: "Pending",
+      required: true,
+    },
+    date: {
+      type: Date,
+      default: Date.now,
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
 
-enquirySchema.plugin(AutoIncrement, { inc_field: 'enq_no' });
+// Auto-increment the raw number
+enquirySchema.plugin(AutoIncrement, { inc_field: "enquiryNoRaw" });
+
+// Format enquiryNo like "ENQ001"
+enquirySchema.pre("save", function (next) {
+  if (!this.enquiryNo && this.enquiryNoRaw) {
+    this.enquiryNo = `ENQ${String(this.enquiryNoRaw).padStart(3, "0")}`;
+  }
+  next();
+});
 
 module.exports = mongoose.model("Enquiry", enquirySchema);

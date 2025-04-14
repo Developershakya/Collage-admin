@@ -7,6 +7,7 @@ const {
   updateEnquirySchema
 } = require("../validators/enquiryValidator");
 
+
 // ✅ Routes with validation
 router.post("/", validate(createEnquirySchema), enquiryController.createEnquiry);
 router.put("/:id", validate(updateEnquirySchema), enquiryController.updateEnquiry);

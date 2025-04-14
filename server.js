@@ -28,13 +28,8 @@ app.use(express.urlencoded({ extended: true }));
 connectDB();
 
 // ✅ Routes
-<<<<<<< HEAD
-app.use('/', userRoute); // for /login & /register
-app.use('/admin/Courses', courseRoute);
-=======
 app.use("/", userRoute); // for /login & /register
 app.use("/admin/addcourse", courseRoute);
->>>>>>> 44d500008fbe6b1bc515f292a4e36199dd17ea77
 app.use("/admin/enquiries", enquiryRoutes);
 
 // ✅ Protected Routes

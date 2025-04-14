@@ -2,7 +2,10 @@
 // models/Student.js
 const StudentSchema = new mongoose.Schema({
     eno: String,
-    sessn: String,
+    sessn: {
+      type:mongoose.Schema.Types.ObjectId,
+      ref:'Session',
+    },
     enrlmdate: Date,
     studnm: String,
     fathrnm: String,

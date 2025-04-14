@@ -5,8 +5,8 @@ const cors = require('cors');
 const userRoute = require('./routes/userRoute');
 const courseRoute = require('./routes/courseRoute');
 const enquiryRoutes = require("./routes/enquiryRoute");
-const authMiddleware = require("./middleware/authMiddleware");
-const roleMiddleware = require("./middleware/roleMiddleware");
+const authMiddleware = require("./middlewares/authMiddleware");
+const roleMiddleware = require("./middlewares/roleMiddleware");
 
 dotenv.config();
 const app = express();
@@ -26,7 +26,7 @@ connectDB();
 
 // ✅ Routes
 app.use('/', userRoute); // for /login & /register
-app.use('/admin/addcourse', courseRoute);
+app.use('/admin/Courses', courseRoute);
 app.use("/admin/enquiries", enquiryRoutes);
 
 // ✅ Protected Routes

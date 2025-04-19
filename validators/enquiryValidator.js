@@ -14,22 +14,22 @@ const createEnquirySchema = Joi.object({
   studentName: Joi.string().min(3).required(),
   phone: Joi.string().pattern(/^\d{10,15}$/).required(),
   email: Joi.string().email().required(),
-  courseInterest: objectId.allow(null), // optional but if provided, should be valid ObjectId
+  courseInterest: Joi.string().required(), // optional but if provided, should be valid ObjectId
   city: Joi.string().required(),
   state: Joi.string().required(),
-  address: Joi.string().min(5).required(),
-  enquiryDetail: Joi.string().min(5).required(),
+  address: Joi.string().min(1).required(),
+  enquiryDetail: Joi.string().min(1).required(),
   status: Joi.string().valid("Pending", "In Progress", "Completed").optional(),
   date: Joi.string().optional(), // optional, default will be set from schema
 });
 
 const updateEnquirySchema = Joi.object({
-  enquiryType: Joi.string().valid("Direct", "Telephonic", "Online"),
+  enquiryType: Joi.string(),
   enquiryNo: Joi.string(),
   studentName: Joi.string().min(3),
   phone: Joi.string().pattern(/^\d{10,15}$/),
   email: Joi.string().email(),
-  courseInterest: objectId.allow(null),
+  courseInterest: Joi.string(),
   city: Joi.string(),
   state: Joi.string(),
   address: Joi.string().min(5),

@@ -7,6 +7,7 @@ const courseRoute = require("./routes/courseRoute");
 const enquiryRoutes = require("./routes/enquiryRoute");
 const authMiddleware = require("./middlewares/authMiddleware");
 const roleMiddleware = require("./middlewares/roleMiddleware");
+const locationRoutes = require("./routes/locationRoute")
 
 const app = express();
 dotenv.config();
@@ -29,8 +30,9 @@ connectDB();
 
 // ✅ Routes
 app.use("/", userRoute); // for /login & /register
-app.use("/admin/addcourse", courseRoute);
+app.use("/admin/courses", courseRoute);
 app.use("/admin/enquiries", enquiryRoutes);
+app.use("/admin/managelocaiton", locationRoutes)
 
 // ✅ Protected Routes
 app.get(

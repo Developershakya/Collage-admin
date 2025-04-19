@@ -4,17 +4,21 @@ const enquiryController = require("../controllers/enquiryController");
 const validate = require("../middlewares/validate");
 const {
   createEnquirySchema,
-  updateEnquirySchema
+  updateEnquirySchema,
+  
 } = require("../validators/enquiryValidator");
 
 
 // ✅ Routes with validation
-router.post("/", validate(createEnquirySchema), enquiryController.createEnquiry);
-router.put("/:id", validate(updateEnquirySchema), enquiryController.updateEnquiry);
-
+router.post("/createenquiry", enquiryController.createEnquiry);
+router.get("/getEnquiryNo" , enquiryController.getNextEnquiryNo);
+router.put("/updatestatus/:enquiryNo",  enquiryController.updateEnquiry);
+ 
 // ✅ Other routes
-router.get("/", enquiryController.getAllEnquiries);
-router.get("/:id", enquiryController.getEnquiryById);
+router.get("/getallenquiries", enquiryController.getAllEnquiries);
+router.get("/getenquiriesbyenquiryNo/:enquiryNo", enquiryController.getEnquiryByenquiryNo);
+router.get("/getenquiriesbyenquiryNo/:editEnquiryNo", enquiryController.getEnquiryByenquiryNo);
 router.delete("/:id", enquiryController.deleteEnquiry);
+
 
 module.exports = router;

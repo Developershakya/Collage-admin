@@ -12,8 +12,12 @@ const getEnquiryByenquiryNo = async (enquiryNo) => {
   return await Enquiry.findOne(enquiryNo);
 };
 
-const updateEnquiry = async (id, data) => {
-  return await Enquiry.findByIdAndUpdate(id, data, { new: true });
+const updateEnquiry = async (enquiryNo, data) => {
+  return await Enquiry.findOneAndUpdate(
+    { enquiryNo },
+    { $set: data },
+    { new: true }
+  );
 };
 
 const deleteEnquiry = async (id) => {

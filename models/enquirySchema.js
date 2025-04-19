@@ -22,7 +22,7 @@ const enquirySchema = new mongoose.Schema(
     phone: {
       type: Number,
       required: true,
-      unique: true,
+     
     },
     email: {
       type: String,
@@ -55,7 +55,7 @@ const enquirySchema = new mongoose.Schema(
     },
     date: {
       type: Date,
-      default: Date.now,
+   
       required: true,
     },
   },

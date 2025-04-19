@@ -1,5 +1,5 @@
 const enquiryService = require("../services/enquiryService");
-
+const Enquiry = require("../models/enquirySchema");
 const createEnquiry = async (req, res) => {
   try {
     console.log("📥 Incoming enquiry data:", req.body);
@@ -22,7 +22,7 @@ const createEnquiry = async (req, res) => {
   }
 };
 
-module.exports = { createEnquiry };
+
 
 const getAllEnquiries = async (req, res) => {
   try {
@@ -46,7 +46,8 @@ const getEnquiryByenquiryNo = async (req, res) => {
 
 const updateEnquiry = async (req, res) => {
   try {
-    const updated = await enquiryService.updateEnquiry(req.params.id, req.body);
+    const enquiryNo  = req.params.enquiryNo;
+    const updated = await enquiryService.updateEnquiry(enquiryNo, req.body);
     if (!updated) return res.status(404).json({ error: "Enquiry not found" });
     res.status(200).json(updated);
   } catch (error) {
@@ -63,6 +64,17 @@ const deleteEnquiry = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+const getNextEnquiryNo = async (req, res) => {
+  try {
+    const latest = await Enquiry.findOne().sort({ enquiryNoRaw: -1 });
+    const nextRaw = latest ? latest.enquiryNoRaw + 1 : 1;
+    const nextEnquiryNo = `ENQ${String(nextRaw).padStart(10, "0")}`;
+
+    res.status(200).json({ enquiryNoRaw: nextRaw, enquiryNo: nextEnquiryNo });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to get next enquiry number" });
+  }
+};
 
 module.exports = {
   createEnquiry,
@@ -70,4 +82,5 @@ module.exports = {
   getEnquiryByenquiryNo,
   updateEnquiry,
   deleteEnquiry,
+  getNextEnquiryNo,
 };

@@ -3,11 +3,11 @@ const courseService = require('../services/courseService');
 // ➕ Add Course
 const addCourse = async (req, res) => {
   try {
-    const { courseName, fee } = req.body;
-    if (!courseName || !fee) {
-      return res.status(400).json({ message: "courseName and fee are required" });
+    const { courseName, duration } = req.body;
+    if (!courseName || !duration) {
+      return res.status(400).json({ message: "courseName and duration are required" });
     }
-    const course = await courseService.createCourse({ courseName, fee });
+    const course = await courseService.createCourse({ courseName, duration });
     res.status(201).json({ message: "Course added", course });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -27,8 +27,8 @@ const getCourses = async (req, res) => {
 // ✏️ Update Course
 const updateCourse = async (req, res) => {
   try {
-    const { courseName, fee } = req.body;
-    const updated = await courseService.updateCourse(req.params.id, { courseName, fee });
+    const { courseName, duration } = req.body;
+    const updated = await courseService.updateCourse(req.params.id, { courseName, duration });
     res.status(200).json({ message: "Course updated", updated });
   } catch (error) {
     res.status(500).json({ error: error.message });

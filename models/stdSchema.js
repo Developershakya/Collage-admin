@@ -22,6 +22,9 @@ const StudentSchema = new mongoose.Schema({
     discount: { type: Number, default: 0 },
     remark: String,
     items: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Item' }],
-    user: String
+    user:{
+      type:mongoose.schema.Types.ObjectId,
+      ref:''
+    }
   }, { timestamps: true });
   module.exports = mongoose.model('Student', StudentSchema);

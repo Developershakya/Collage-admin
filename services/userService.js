@@ -3,11 +3,9 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/userSchema");
 
 const generateToken = (user) => {
-  return jwt.sign(
-    { id: user._id, role: user.role },
-    process.env.JWT_SECRET,
-    { expiresIn: "2d" }
-  );
+  return jwt.sign({ id: user._id, role: user.role , username: user.username}, process.env.JWT_SECRET, {
+    expiresIn: "2d",
+  });
 };
 
 const loginUser = async (username, password) => {
@@ -33,14 +31,14 @@ const loginUser = async (username, password) => {
         break;
     }
 
-    return { token, role: user.role, redirectTo };
+    return { token, role: user.role, username: user.username, redirectTo };
   } catch (err) {
     console.error(err.message);
     return { error: "Server error", status: 500 };
   }
 };
 
-const registerUser = async (username, email,password, role = "student") => {
+const registerUser = async (username, email, password, role = "student") => {
   try {
     let existingUser = await User.findOne({ username });
     if (existingUser) return { error: "User already exists", status: 400 };

@@ -3,7 +3,12 @@ const stdService = require('../services/stdService');
 // ➕ Add Student
 exports.addStudent = async (req, res) => {
   try {
-    const student = await stdService.createStudent(req.body);
+    const studentData = {
+      ...req.body,
+      user: req.user.id,
+    };
+
+    const student = await stdService.createStudent(studentData);
     res.status(201).json({ message: "Student added", student });
   } catch (err) {
     res.status(500).json({ error: err.message });

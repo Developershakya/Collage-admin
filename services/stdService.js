@@ -1,21 +1,21 @@
-const Student = require('../models/Student');
+const Student = require('../models/stdSchema');
 
-exports.createStudent = async (data) => {
+module.exports.createStudent = async (data) => {
   return await Student.create(data);
 };
 
-exports.getAllStudents = async () => {
+module.exports.getAllStudents = async () => {
   return await Student.find().populate('course items');
 };
 
-exports.getStudentById = async (id) => {
+module.exports.getStudentById = async (id) => {
   return await Student.findById(id).populate('course items');
 };
 
-exports.updateStudent = async (id, data) => {
+module.exports.updateStudent = async (id, data) => {
   return await Student.findByIdAndUpdate(id, data, { new: true });
 };
 
-exports.deleteStudent = async (id) => {
+module.exports.deleteStudent = async (id) => {
   return await Student.findByIdAndDelete(id);
 };

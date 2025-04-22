@@ -3,15 +3,12 @@ const stdService = require('../services/stdService');
 // ➕ Add Student
 exports.addStudent = async (req, res) => {
   try {
-    const studentData = {
-      ...req.body,
-      user: req.user.id,
-    };
+    const studentData = { ...req.body, user: req.user.id };
 
     const student = await stdService.createStudent(studentData);
-    res.status(201).json({ message: "Student added", student });
+    res.status(201).json({ message: "Student added successfully", student });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: err.message || "Server error" });
   }
 };
 
@@ -21,7 +18,7 @@ exports.getStudents = async (req, res) => {
     const students = await stdService.getAllStudents();
     res.status(200).json(students);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: err.message || "Server error" });
   }
 };
 
@@ -29,29 +26,37 @@ exports.getStudents = async (req, res) => {
 exports.getStudent = async (req, res) => {
   try {
     const student = await stdService.getStudentById(req.params.id);
-    if (!student) return res.status(404).json({ message: "Student not found" });
+    if (!student) {
+      return res.status(404).json({ message: "Student not found" });
+    }
     res.status(200).json(student);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: err.message || "Server error" });
   }
 };
 
 // ✏️ Update Student
 exports.updateStudent = async (req, res) => {
   try {
-    const updated = await stdService.updateStudent(req.params.id, req.body);
-    res.status(200).json({ message: "Student updated", updated });
+    const updatedStudent = await stdService.updateStudent(req.params.id, req.body);
+    if (!updatedStudent) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+    res.status(200).json({ message: "Student updated successfully", updatedStudent });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: err.message || "Server error" });
   }
 };
 
 // ❌ Delete Student
 exports.deleteStudent = async (req, res) => {
   try {
-    await stdService.deleteStudent(req.params.id);
-    res.status(200).json({ message: "Student deleted" });
+    const deletedStudent = await stdService.deleteStudent(req.params.id);
+    if (!deletedStudent) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+    res.status(200).json({ message: "Student deleted successfully" });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: err.message || "Server error" });
   }
 };

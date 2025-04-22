@@ -11,6 +11,8 @@ const locationRoutes = require("./routes/locationRoute")
 const cookieParser = require("cookie-parser");
 const User = require("./models/userSchema");
 const isAuthenticated = require("./middlewares/isAuthenticated");
+const stdRoutes = require("./routes/stdRouter")
+const itemRoutes = require("./routes/itemRoutes")
 const app = express();
 dotenv.config();
 
@@ -34,13 +36,15 @@ connectDB();
 // ✅ Routes
 
 app.use("/", userRoute); // for /login & /register
+app.use("/admin",  itemRoutes);
 app.use("/admin/courses", courseRoute);
+app.use("/admin/students" , stdRoutes);
 app.use("/admin/enquiries", enquiryRoutes);
 app.use("/admin/managelocaiton", locationRoutes);
 
 
+app.get("/check-auth",  async (req, res) => {
 
-app.get("/check-auth", authMiddleware, async (req, res) => {
    try {
      const user = await User.findById(req.userId).select("username email role");
  

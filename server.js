@@ -7,7 +7,7 @@ const courseRoute = require("./routes/courseRoute");
 const enquiryRoutes = require("./routes/enquiryRoute");
 const authMiddleware = require("./middlewares/authMiddleware");
 const roleMiddleware = require("./middlewares/roleMiddleware");
-const locationRoutes = require("./routes/locationRoute")
+const locationRoutes = require("./routes/locationRoute");
 const cookieParser = require("cookie-parser");
 const User = require("./models/userSchema");
 const isAuthenticated = require("./middlewares/isAuthenticated");
@@ -38,25 +38,25 @@ app.use("/admin/courses", courseRoute);
 app.use("/admin/enquiries", enquiryRoutes);
 app.use("/admin/managelocaiton", locationRoutes);
 
-
-
 app.get("/check-auth", authMiddleware, async (req, res) => {
-   try {
-     const user = await User.findById(req.userId).select("username email role");
- 
-     if (!user) {
-       return res.status(401).json({ isAuthenticated: false });
-     }
- 
-     res.json({
-       isAuthenticated: true,
-       user, // 👈 returns { username: "YourName", ... }
-     });
-   } catch (err) {
-     res.status(500).json({ isAuthenticated: false });
-   }
-});
+  try {
+    const user = await User.findById(req.userId).select("username email role");
 
+    if (!user) {
+      return res
+        .status(401)
+        .json({ isAuthenticated: false, message: "User not found" });
+    }
+
+    res.status(200).json({
+      isAuthenticated: true,
+      user,
+    });
+  } catch (err) {
+    console.error("Check-auth error:", err);
+    res.status(500).json({ isAuthenticated: false, message: "Server error" });
+  }
+});
 
 // ✅ Protected Routes
 app.get(

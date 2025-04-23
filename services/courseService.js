@@ -1,4 +1,4 @@
-const Course = require('../models/courseSchema');
+const Course = require("../models/courseSchema");
 
 const createCourse = async (data) => {
   const newCourse = new Course(data);
@@ -17,7 +17,12 @@ const deleteCourse = async (id) => {
   return await Course.findByIdAndDelete(id);
 };
 
+const findCourseByName = async (courseName) => {
+  return await Course.findOne({ courseName });
+};
+
 module.exports = {
+  findCourseByName,
   createCourse,
   getAllCourses,
   updateCourse,

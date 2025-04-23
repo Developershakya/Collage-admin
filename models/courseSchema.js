@@ -10,6 +10,10 @@ const courseSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  courseFee: {
+    type: Number,
+    required: true,
+  },
 });
 
 module.exports= mongoose.model('Course', courseSchema);

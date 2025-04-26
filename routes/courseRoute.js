@@ -3,7 +3,8 @@ const {
   addCourse,
   getCourses,
   updateCourse,
-  deleteCourse
+  deleteCourse,
+  getCourse
 } = require("../controllers/courseController");
 
 const validate = require("../middlewares/validate");
@@ -16,6 +17,7 @@ const router = express.Router();
 
 router.post("/add",  addCourse);           // ➕ Create
 router.get("/", getCourses);                                            // 📃 Read all
+router.get("/getCourse/:id", getCourse);                                            // 📃 Read all
 router.put("/update/:id",  updateCourse); // ✏️ Update
 router.delete("/delete/:id", deleteCourse);                             // ❌ Delete
 

@@ -1,8 +1,8 @@
 const express = require("express");
 const Stripe = require("stripe");
 const router = express.Router();
-// _SECRET_KEY="sk_test_51RJWDYSGzMNdL60zhKe8mfn8SiKy7dXHko9G0rwUnP9JTMElbPJaTanAYbJTEtkKV1PlfYcpl0XBKDkiJ0AM8EKZ00h7kQe7wQ"
-const stripe = Stripe(STRIPE_SECRET_KEY);
+// STRIPE_SECRET_KEY="sk_test_51RJWDYSGzMNdL60zhKe8mfn8SiKy7dXHko9G0rwUnP9JTMElbPJaTanAYbJTEtkKV1PlfYcpl0XBKDkiJ0AM8EKZ00h7kQe7wQ"
+// const stripe = Stripe(STRIPE_SECRET_KEY);
 
 router.post("/create-checkout-session", async (req, res) => {
   const { studentId } = req.body;

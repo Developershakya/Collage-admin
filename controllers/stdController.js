@@ -1,12 +1,47 @@
-const stdService = require('../services/stdService');
+const Student = require("../models/stdSchema");
+const Counter = require("../models/counterSchema");
 
-// ➕ Add Student
 exports.addStudent = async (req, res) => {
   try {
-    const studentData = { ...req.body, user: req.user.id };
+    // Find or initialize the counter
+    let counter = await Counter.findById("enrollmentNo");
+    if (!counter) {
+      counter = await Counter.create({
+        _id: "enrollmentNo",
+        sequence_value: 0,
+      });
+    }
 
-    const student = await stdService.createStudent(studentData);
-    res.status(201).json({ message: "Student added successfully", student });
+    // Increment the counter
+    counter.sequence_value += 1;
+    await counter.save();
+
+    // Generate enrollment number
+    const enrollmentNo = `Enrolment${String(counter.sequence_value).padStart(
+      6,
+      "0"
+    )}`;
+    console.log(enrollmentNo); // For debugging
+
+    // Merge data and create new student
+    const studentData = {
+      ...req.body,
+      enrollmentNo, // Add enrollmentNo here
+    };
+
+    const newStudent = new Student(studentData);
+    await newStudent.save();
+
+    console.log(newStudent); // For debugging
+
+    // Send response with enrollmentNo included
+    res.status(201).json({
+      message: "Student added successfully",
+      student: {
+        ...newStudent._doc,
+        enrollmentNo, // explicitly include enrollment number
+      },
+    });
   } catch (err) {
     res.status(500).json({ error: err.message || "Server error" });
   }
@@ -38,11 +73,16 @@ exports.getStudent = async (req, res) => {
 // ✏️ Update Student
 exports.updateStudent = async (req, res) => {
   try {
-    const updatedStudent = await stdService.updateStudent(req.params.id, req.body);
+    const updatedStudent = await stdService.updateStudent(
+      req.params.id,
+      req.body
+    );
     if (!updatedStudent) {
       return res.status(404).json({ message: "Student not found" });
     }
-    res.status(200).json({ message: "Student updated successfully", updatedStudent });
+    res
+      .status(200)
+      .json({ message: "Student updated successfully", updatedStudent });
   } catch (err) {
     res.status(500).json({ error: err.message || "Server error" });
   }

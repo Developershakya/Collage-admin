@@ -2,6 +2,8 @@ const express = require("express");
 const connectDB = require("./config/database");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const paymentRoutes = require("./routes/paymentRoute");
+
 const userRoute = require("./routes/userRoute");
 const courseRoute = require("./routes/courseRoute");
 const enquiryRoutes = require("./routes/enquiryRoute");
@@ -13,6 +15,7 @@ const User = require("./models/userSchema");
 const isAuthenticated = require("./middlewares/isAuthenticated");
 const stdRoutes = require("./routes/stdRouter")
 const itemRoutes = require("./routes/itemRoutes")
+const paymentRoute = require("./routes/paymentRoute")
 const app = express();
 dotenv.config();
 
@@ -33,6 +36,8 @@ app.use(cookieParser());
 // ✅ DB Connect
 connectDB();
 
+
+
 // ✅ Routes
 
 app.use("/", userRoute); // for /login & /register
@@ -41,8 +46,9 @@ app.use("/admin/courses", courseRoute);
 app.use("/admin/students" , stdRoutes);
 app.use("/admin/enquiries", enquiryRoutes);
 app.use("/admin/managelocaiton", locationRoutes);
+app.use("/admin/student/feePayment",paymentRoute );
 
-
+app.use("/api/payment", paymentRoutes);
 
 app.get("/check-auth", authMiddleware, async (req, res) => {
   try {

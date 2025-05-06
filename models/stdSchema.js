@@ -15,7 +15,9 @@ const studentSchema = new mongoose.Schema({
   course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course', required: true },
   remark: { type: String },
   items: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Item' }],
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  user: { type: mongoose.Schema.Types.ObjectId,
+    //  ref: 'User', required: true
+     },
   enrollmentNo: { type: String, unique: true },  // Add this line to store the enrollment number
   enrolmentDate: { type: Date, default: Date.now },
 }, { timestamps: true });

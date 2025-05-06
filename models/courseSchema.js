@@ -14,6 +14,10 @@ const courseSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  isFeePaid:{
+    type:Boolean,
+    default:false,
+  }
 });
 
 module.exports= mongoose.model('Course', courseSchema);

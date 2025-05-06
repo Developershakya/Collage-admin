@@ -1,9 +1,9 @@
 const Student = require("../models/stdSchema");
 const Counter = require("../models/counterSchema");
 
+const stdService = require("../services/stdService");
 exports.addStudent = async (req, res) => {
   try {
-    // Find or initialize the counter
     let counter = await Counter.findById("enrollmentNo");
     if (!counter) {
       counter = await Counter.create({
@@ -12,36 +12,40 @@ exports.addStudent = async (req, res) => {
       });
     }
 
-    // Increment the counter
     counter.sequence_value += 1;
     await counter.save();
 
-    // Generate enrollment number
     const enrollmentNo = `Enrolment${String(counter.sequence_value).padStart(
       6,
       "0"
     )}`;
-    console.log(enrollmentNo); // For debugging
 
-    // Merge data and create new student
-    const studentData = {
-      ...req.body,
-      enrollmentNo, // Add enrollmentNo here
-    };
-
+    const studentData = { ...req.body, enrollmentNo };
     const newStudent = new Student(studentData);
     await newStudent.save();
 
-    console.log(newStudent); // For debugging
-
-    // Send response with enrollmentNo included
     res.status(201).json({
       message: "Student added successfully",
       student: {
         ...newStudent._doc,
-        enrollmentNo, // explicitly include enrollment number
+        enrollmentNo,
       },
     });
+  } catch (err) {
+    res.status(500).json({ error: err.message || "Server error" });
+  }
+};
+
+exports.getStudentByEnrollment = async (req, res) => {
+  try {
+    const student = await Student.findOne({
+      enrollmentNo: req.params.enrollmentNo,
+    });
+    console.log(student);
+    if (!student) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+    res.status(200).json(student);
   } catch (err) {
     res.status(500).json({ error: err.message || "Server error" });
   }

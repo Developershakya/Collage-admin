@@ -15,7 +15,7 @@
     "mongoose": "^8.13.2",
     "mongoose-sequence": "^6.0.1",
     "razorpay": "^2.9.6",
-    "stripe": "^18.0.0"
+    "stripe": "^18.1.0"
   },
   "type": "commonjs"
 }

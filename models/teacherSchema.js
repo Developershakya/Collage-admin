@@ -1,11 +1,24 @@
 const mongoose = require("mongoose");
-const User = require("./userSchema")
+// const User = require("./userSchema")
 const teacherSchema = new mongoose.Schema({
+    
+    TeacherName:{
+        type:String,
+        required:true,
+    },
+TeacherSalary:{
+    type:Number,
+    required:true,
+    },
+    TeacherCourse:{
+        type:String,
+        required:true,
+    },
     location:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'Location'
-    }
+        type:String,
+        required:true,
+    },
     
 
 })
-module.exports = User.discriminator("Teacher",teacherSchema);
+module.exports = mongoose.model("Teacher",teacherSchema);

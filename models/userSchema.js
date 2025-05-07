@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
     default: "student",
     require: true,
   },
+  
 });
 
 // Hash password before saving

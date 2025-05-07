@@ -16,6 +16,7 @@ const isAuthenticated = require("./middlewares/isAuthenticated");
 const stdRoutes = require("./routes/stdRouter");
 const itemRoutes = require("./routes/itemRoutes");
 const paymentRoute = require("./routes/paymentRoute");
+const teacherRoute = require("./routes/teacherRoute");
 const app = express();
 dotenv.config();
 
@@ -42,6 +43,7 @@ app.use("/", userRoute); // for /login & /register
 app.use("/admin", itemRoutes);
 app.use("/admin/courses", courseRoute);
 app.use("/admin/students", stdRoutes);
+app.use("/admin/teacher", teacherRoute);
 app.use("/admin/enquiries", enquiryRoutes);
 app.use("/admin/managelocaiton", locationRoutes);
 app.use("/admin/student/feePayment", paymentRoute);
